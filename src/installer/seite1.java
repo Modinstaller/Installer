@@ -51,11 +51,10 @@ public class seite1 extends JFrame
 	private Class<?> utils;
 	private boolean update = false;
 	
-	//test17:13
 	
 	public seite1()
 	{
-		setUndecorated(true);
+		setUndecorated(false);
 		try 
 		{
 		    utils = Class.forName("com.sun.awt.AWTUtilities");
