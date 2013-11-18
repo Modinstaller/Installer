@@ -54,7 +54,7 @@ public class seite1 extends JFrame
 	
 	public seite1()
 	{
-		setUndecorated(false);
+		setUndecorated(true);
 		try 
 		{
 		    utils = Class.forName("com.sun.awt.AWTUtilities");
