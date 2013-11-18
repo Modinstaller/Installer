@@ -49,7 +49,7 @@ public class seite1 extends JFrame
 	private Cursor c = new Cursor(Cursor.HAND_CURSOR);
 	private Method shapeMethod, transparencyMethod;
 	private Class<?> utils;
-	private boolean update = false;
+	private boolean update = true;
 	
 	public seite1()
 	{
