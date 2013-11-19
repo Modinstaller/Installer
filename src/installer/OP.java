@@ -51,10 +51,12 @@ public class OP
 		{
 			if(quelle.isDirectory())	
 			{
+				makedirs(ziel);
 				copyDir(quelle, ziel);				
 			}
 			else
 			{
+				makedirs(ziel.getParentFile());
 				copyFile(quelle, ziel);
 			}
 		}

@@ -65,7 +65,7 @@ public class seite3 extends JFrame
 	private float downloadzeit = 0, downloadgroesse=0;
 	private double value = 0.00;
 	private String Version, mineord, webplace, quelle, Fehler = "", stamm;
-	private BufferedReader buffread, buffread2, buffread3;
+	private BufferedReader buffread;
 	private Cursor c = new Cursor(Cursor.HAND_CURSOR);
 	private Method shapeMethod, transparencyMethod;
 	private Class<?> utils;
@@ -468,35 +468,44 @@ public class seite3 extends JFrame
 					Fehler += String.valueOf(ex) + " Errorcode: S3x04\n";
 				}
 			    }
-				
-				File datei = new File(stamm + "/Modinstaller/zusatz.txt");            // Zusatzdateien kopieren
-				if (datei.exists()) 
+								          
+				if ( new File(stamm + "/Modinstaller/zusatz.txt").exists())  // Zusatzdateien kopieren
 				{
 					try 
 					{
-						buffread2 = new BufferedReader(new FileReader(stamm + "/Modinstaller/zusatz.txt"));
+						BufferedReader buffread2 = new BufferedReader(new FileReader(stamm + "/Modinstaller/zusatz.txt"));
 						String zeile2 = null;
 						while ((zeile2 = buffread2.readLine()) != null) 
 						{
 							stat.setText(Read.getTextwith("seite3", "prog11a") + zeile2 + Read.getTextwith("seite3", "prog11b"));
-							buffread3 = new BufferedReader(new FileReader(stamm + "/Modinstaller/Import/"+zeile2+".txt"));
+							BufferedReader buffread3 = new BufferedReader(new FileReader(stamm + "/Modinstaller/Import/"+zeile2+".txt"));
 							String zeile3 = null;
 							while ((zeile3 = buffread3.readLine()) != null) 
 							{	
 								String[] spl = zeile3.split(";;");
 								if(spl.length==1)
-								{
-									new OP().copy(new File(spl[0]), new File(stamm + "/Modinstaller/Result/"));
+								{	
+									if(new File(spl[0]).isDirectory())
+									{
+										new OP().copy(new File(spl[0]), new File(stamm + "/Modinstaller/Result/"));
+									}
+									else
+									{
+										String name = new File(spl[0]).getName().toString().replace("\\", "/");
+										new OP().copy(new File(spl[0]), new File(stamm + "/Modinstaller/Result/"+name));
+									}									
 								}
 								else
-								{
+								{									
 									String von = spl[0];
-									String nach = spl[1]+new File(spl[0]).getName().toString();
-									new OP().makedirs(new File(spl[1]));
+									String nach = spl[1]+new File(spl[0]).getName().toString().replace("\\", "/");
+									
 									new OP().copy(new File(von), new File(nach));
 								}
 							}
+							buffread3.close();
 						}
+						buffread2.close();
 					} 
 					catch (Exception ex) 
 					{
@@ -616,9 +625,7 @@ public class seite3 extends JFrame
 			{			
 				new Extrahieren().exit();
 				new download().exit();
-				buffread.close();
-				buffread2.close();
-				buffread3.close();
+				buffread.close();				
 				new Komprimieren().exit();				
 			} 
 			catch (Exception ex) 
