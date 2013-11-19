@@ -32,7 +32,7 @@
     "inter1":"Hilfe anzeigen",
     "inter2":"Offline arbeiten",
     "inter3":"Programm beenden",
-    "inter4":"<html><body>Die Liste der aktuellen Mods konnte nicht heruntergeladen werden.<br>Bitte stelle eine Verbindung mit dem Internet her!<br>Außerdem solltest Du überprüfen, ob ein Virenschutzprogramm den Netzwerkverkehr von Java (Oracle) blockiert.<br><br>Java meldete...<br><br>",
+    "inter4":"<html><body>Die Liste der aktuellen Mods konnte nicht heruntergeladen werden.<br>Entweder ist keine Modliste für die ausgewählte Minecraft Version verfügbar<br>oder Java kann die Modliste nicht vom Internet herunterladen.<br>Wir unterstützen alle Release Versionen (ab Minecraft 1.4.2).<br>Du solltest auch überprüfen, ob ein Virenschutzprogramm den Netzwerkverkehr von Java (Oracle) blockiert.<br><br>Java meldete...<br><br>",
     "inter4h":"Internetverbindung konnte nicht hergestellt werden"
   },
   "seite2": { 
