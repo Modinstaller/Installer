@@ -75,7 +75,7 @@ public class download
 		} 		
 		else 
 		{
-			throw new IllegalStateException("HTTP Response Code "+ responseCode + "\nSource: "+url_str+"\nErrorcode: DOx01");
+			throw new IllegalStateException("HTTP Response Code "+  conn.getResponseCode() + "\nSource: "+url_str+"\nErrorcode: DOx01");
 		}		
 		conn.disconnect();
 		return rue;

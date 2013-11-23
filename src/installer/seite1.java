@@ -122,211 +122,218 @@ public class seite1 extends JFrame
 		
 		setVisible(true);
 		
-		new Thread() {
+		new Thread() 
+		{
 			@Override
 			public void run() 
 			{		
-		prog.setText(Read.getTextwith("seite1", "prog2"));
-		
-		try {
-			 Thread.sleep(300);
-			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		
-		String str = System.getProperty("os.name").toLowerCase(); // Ordner Appdata den Betriebssystemen anpassen
-		
-		 if (str.contains("win"))
-		 {
-			 mineord = System.getenv("APPDATA").replace("\\", "/") + "/.minecraft";
-			 stamm = System.getenv("APPDATA").replace("\\", "/");
-		 }
-		 else if (str.contains("mac")) 
-		 {
-			 mineord = System.getProperty("user.home").replace("\\", "/") + "/Library/Application Support/minecraft";
-			 stamm =  System.getProperty("user.home").replace("\\", "/") + "/Library/Application Support";
-		 }
-		 else if (str.contains("solaris")) 
-		 {
-			 mineord = System.getProperty("user.home").replace("\\", "/") + "/.minecraft";
-			 stamm = System.getProperty("user.home").replace("\\", "/");
-		 }
-		 else if (str.contains("sunos")) 
-		 {
-			 mineord = System.getProperty("user.home").replace("\\", "/") + "/.minecraft";
-			 stamm = System.getProperty("user.home").replace("\\", "/");
-		 }
-		 else if (str.contains("linux"))
-		 {
-			 mineord = System.getProperty("user.home").replace("\\", "/") + "/.minecraft";
-			 stamm = System.getProperty("user.home").replace("\\", "/");
-		 }
-		 else if (str.contains("unix")) 
-		 {
-			 mineord = System.getProperty("user.home").replace("\\", "/") + "/.minecraft";
-			 stamm = System.getProperty("user.home").replace("\\", "/");
-		 }
-		 else 
-		 {
-			mineord = System.getProperty("user.home").replace("\\", "/") + "/.minecraft";
-		    stamm = System.getProperty("user.home").replace("\\", "/");
-		 }		
-			
-		if(!new File(mineord).exists())
-		{
-			 JOptionPane.showMessageDialog(null, Read.getTextwith("seite1", "error4"), Read.getTextwith("seite1", "error4h"), JOptionPane.ERROR_MESSAGE);
-			 JFileChooser fc = new JFileChooser(); 
-			 
-			 fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY); 
-			 int returnVal = fc.showOpenDialog(null);
-			 if (returnVal != JFileChooser.APPROVE_OPTION) 
-			 { 
-				 System.exit(0);
-			 } 
-			 else 
-			 { 
-				 mineord = String.valueOf(fc.getSelectedFile()).replace("\\", "/");
-			 }
-		}		
-		
-		prog.setText(Read.getTextwith("seite1", "prog3"));
-		try {
-			Thread.sleep(300);
-		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
-		 // Installation von Mincraft überprüfen
-		
-		Version = new OP().version(mineord, Version, webplace, online, stamm);		
-		
-		new OP().makedirs(new File(stamm + "/Modinstaller"));
-		  
-		aktualisieren();
-    
-    
-    if(online==true&&update==true)
-	{    	  
-    	prog.setText(Read.getTextwith("seite1", "prog4"));
-    	try {
-			Thread.sleep(300);
-		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		try // Update testen
-		{
-			new download().downloadFile("http://www.minecraft-installer.de/request.php?target=update&lang="+Read.getTextwith("installer", "lang"), new FileOutputStream(new File(stamm + "/Modinstaller/update.txt"))); // update_de.txt herunterladen
-			BufferedReader in2 = new BufferedReader(new FileReader(stamm + "/Modinstaller/update.txt")); // Datei einlesen
-			String zeile3 = null;
-			int zahl = 0;
-			String meld = "";
-			String textz = "";
-			boolean antw = false;
-			while ((zeile3 = in2.readLine()) != null) // Datei durchkämmen
-			{
-				zahl++;
-				if (zahl == 1) 
-				{					
-					String[] Nrneu = zeile3.split("\\.");
-					String[] Nralt = Programmnummer.split("\\.");	
-
-					if (Integer.parseInt(Nrneu[0])>Integer.parseInt(Nralt[0])) 
-					{						
-						antw = true;	
+				prog.setText(Read.getTextwith("seite1", "prog2"));
+				
+				try {
+					 Thread.sleep(300);
+					} catch (InterruptedException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
 					}
-					else if(Integer.parseInt(Nrneu[0])==Integer.parseInt(Nralt[0]))
-					{
-						if (Integer.parseInt(Nrneu[1])>Integer.parseInt(Nralt[1])) 
-						{
-							antw = true;						
-						}
-						else if(Integer.parseInt(Nrneu[1])==Integer.parseInt(Nralt[1]))
-						{
-							if(Nrneu.length==3)
-							{
-								if(Nralt.length==3)
-								{
-									if (Integer.parseInt(Nrneu[2])>Integer.parseInt(Nralt[2])) 
-									{
-										antw = true;					
-									}	
-								}
-								else
-								{	
-									if (Integer.parseInt(Nrneu[2])>0) 
-									{
-										antw = true;						
-									}
-								}								
-							}	
-						}
-					}
-					meld = zeile3;
-				} 
-				else // alle anderen Zeilen in text speichern
+				
+				String str = System.getProperty("os.name").toLowerCase(); // Ordner Appdata den Betriebssystemen anpassen
+				
+				 if (str.contains("win"))
+				 {
+					 mineord = System.getenv("APPDATA").replace("\\", "/") + "/.minecraft";
+					 stamm = System.getenv("APPDATA").replace("\\", "/");
+				 }
+				 else if (str.contains("mac")) 
+				 {
+					 mineord = System.getProperty("user.home").replace("\\", "/") + "/Library/Application Support/minecraft";
+					 stamm =  System.getProperty("user.home").replace("\\", "/") + "/Library/Application Support";
+				 }
+				 else if (str.contains("solaris")) 
+				 {
+					 mineord = System.getProperty("user.home").replace("\\", "/") + "/.minecraft";
+					 stamm = System.getProperty("user.home").replace("\\", "/");
+				 }
+				 else if (str.contains("sunos")) 
+				 {
+					 mineord = System.getProperty("user.home").replace("\\", "/") + "/.minecraft";
+					 stamm = System.getProperty("user.home").replace("\\", "/");
+				 }
+				 else if (str.contains("linux"))
+				 {
+					 mineord = System.getProperty("user.home").replace("\\", "/") + "/.minecraft";
+					 stamm = System.getProperty("user.home").replace("\\", "/");
+				 }
+				 else if (str.contains("unix")) 
+				 {
+					 mineord = System.getProperty("user.home").replace("\\", "/") + "/.minecraft";
+					 stamm = System.getProperty("user.home").replace("\\", "/");
+				 }
+				 else 
+				 {
+					mineord = System.getProperty("user.home").replace("\\", "/") + "/.minecraft";
+				    stamm = System.getProperty("user.home").replace("\\", "/");
+				 }		
+					
+				if(!new File(mineord).exists())
 				{
-					textz += zeile3;
-				}
-			}
-			in2.close();
-			if (antw == true) // Wenn Programmnummer nicht identisch ist
-			{
-				prog.setText(Read.getTextwith("seite1", "prog5"));
-				int eingabe = JOptionPane.showConfirmDialog(null,"<html><body><span style=\"font-weight:bold\">"+Read.getTextwith("seite1", "update1")+ meld+ Read.getTextwith("seite1", "update2")+ textz+ Read.getTextwith("seite1", "update3"), Read.getTextwith("seite1", "update1") + meld, JOptionPane.YES_NO_OPTION);
-				if (eingabe == 0) 
-				{
-					new browser("http://www.minecraft-installer.de");
-				} // end of if
-			} // end of if
-			else
-			{
-				prog.setText(Read.getTextwith("seite1", "prog6"));
-		    	try {
+					 JOptionPane.showMessageDialog(null, Read.getTextwith("seite1", "error4"), Read.getTextwith("seite1", "error4h"), JOptionPane.ERROR_MESSAGE);
+					 JFileChooser fc = new JFileChooser(); 
+					 
+					 fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY); 
+					 int returnVal = fc.showOpenDialog(null);
+					 if (returnVal != JFileChooser.APPROVE_OPTION) 
+					 { 
+						 System.exit(0);
+					 } 
+					 else 
+					 { 
+						 mineord = String.valueOf(fc.getSelectedFile()).replace("\\", "/");
+					 }
+				}		
+				
+				prog.setText(Read.getTextwith("seite1", "prog3"));
+				try {
 					Thread.sleep(300);
 				} catch (InterruptedException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+				
+				 // Installation von Mincraft überprüfen
+				
+				Version = new OP().version(mineord, Version, webplace, online, stamm);		
+				
+				new OP().makedirs(new File(stamm + "/Modinstaller"));
+				  
+				aktualisieren();
+				
+				if(online==false)
+				{
+					new OP().del(new File(stamm + "/Modinstaller/modlist.txt"));				
+				}
+		    
+			    if(online==true&&update==true)
+				{    	  
+			    	prog.setText(Read.getTextwith("seite1", "prog4"));
+			    	try {
+						Thread.sleep(300);
+					} catch (InterruptedException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					try // Update testen
+					{
+						new download().downloadFile("http://www.minecraft-installer.de/request.php?target=update&lang="+Read.getTextwith("installer", "lang"), new FileOutputStream(new File(stamm + "/Modinstaller/update.txt"))); // update_de.txt herunterladen
+						BufferedReader in2 = new BufferedReader(new FileReader(stamm + "/Modinstaller/update.txt")); // Datei einlesen
+						String zeile3 = null;
+						int zahl = 0;
+						String meld = "";
+						String textz = "";
+						boolean antw = false;
+						while ((zeile3 = in2.readLine()) != null) // Datei durchkämmen
+						{
+							zahl++;
+							if (zahl == 1) 
+							{					
+								String[] Nrneu = zeile3.split("\\.");
+								String[] Nralt = Programmnummer.split("\\.");	
+			
+								if (Integer.parseInt(Nrneu[0])>Integer.parseInt(Nralt[0])) 
+								{						
+									antw = true;	
+								}
+								else if(Integer.parseInt(Nrneu[0])==Integer.parseInt(Nralt[0]))
+								{
+									if (Integer.parseInt(Nrneu[1])>Integer.parseInt(Nralt[1])) 
+									{
+										antw = true;						
+									}
+									else if(Integer.parseInt(Nrneu[1])==Integer.parseInt(Nralt[1]))
+									{
+										if(Nrneu.length==3)
+										{
+											if(Nralt.length==3)
+											{
+												if (Integer.parseInt(Nrneu[2])>Integer.parseInt(Nralt[2])) 
+												{
+													antw = true;					
+												}	
+											}
+											else
+											{	
+												if (Integer.parseInt(Nrneu[2])>0) 
+												{
+													antw = true;						
+												}
+											}								
+										}	
+									}
+								}
+								meld = zeile3;
+							} 
+							else // alle anderen Zeilen in text speichern
+							{
+								textz += zeile3;
+							}
+						}
+						in2.close();
+						if (antw == true) // Wenn Programmnummer nicht identisch ist
+						{
+							prog.setText(Read.getTextwith("seite1", "prog5"));
+							int eingabe = JOptionPane.showConfirmDialog(null,"<html><body><span style=\"font-weight:bold\">"+Read.getTextwith("seite1", "update1")+ meld+ Read.getTextwith("seite1", "update2")+ textz+ Read.getTextwith("seite1", "update3"), Read.getTextwith("seite1", "update1") + meld, JOptionPane.YES_NO_OPTION);
+							if (eingabe == 0) 
+							{
+								new browser("http://www.minecraft-installer.de");
+							} // end of if
+						} // end of if
+						else
+						{
+							prog.setText(Read.getTextwith("seite1", "prog6"));
+					    	try {
+								Thread.sleep(300);
+							} catch (InterruptedException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+						}
+						}		 
+						catch (Exception ex) 
+						{
+							return;
+						}
+					} 
+		    
+			
+				    new OP().makedirs(new File(stamm+"/Modinstaller/Texte"));    
+					new OP().del(new File(stamm+"/Modinstaller/zusatz.txt"));
+					new OP().del(new File(stamm+"/Modinstaller/Import"));
+					
+					 prog.setText(Read.getTextwith("seite1", "prog12"));
+					 
+				    try 
+				    {
+						Thread.sleep(500);
+						dispose();
+					} 
+				    catch (InterruptedException e1) 
+				    {				
+						e1.printStackTrace();
+					}   
+					File filex = new File(stamm+"/Modinstaller/lizenz.txt"); // Überprüfen ob lizenz.txt vorhanden
+					if (filex.exists()) 
+					{
+						new seite2(webplace, mineord, online, Version, stamm);
+					} 
+					else 
+					{
+						new lizenz(mineord, webplace, online, Version, stamm);
+					}
+					}
+				}.start();
 			}
-			}		 
-			catch (Exception ex) 
-			{
-				return;
-			}
-		} 
-    
-	
-    new OP().makedirs(new File(stamm+"/Modinstaller/Texte"));    
-	new OP().del(new File(stamm+"/Modinstaller/zusatz.txt"));
-	new OP().del(new File(stamm+"/Modinstaller/Import"));
-	
-	 prog.setText(Read.getTextwith("seite1", "prog12"));
-	 
-    try {
-		Thread.sleep(500);
-		dispose();
-	} catch (InterruptedException e1) {
-		// TODO Auto-generated catch block
-		e1.printStackTrace();
-	}   
-	File filex = new File(stamm+"/Modinstaller/lizenz.txt"); // Überprüfen ob lizenz.txt vorhanden
-	if (filex.exists()) 
-	{
-		new seite2(webplace, mineord, online, Version, stamm);
-	} 
-	else 
-	{
-		new lizenz(mineord, webplace, online, Version, stamm);
-	}
-			}
-		}.start();
-	}
-
-	// Anfang Methoden
-	
+		
+			// Anfang Methoden
+			
 	
 	public void aktualisieren()
 	{
@@ -398,9 +405,31 @@ public class seite1 extends JFrame
 			}
 			try 
 			{
-				new OP().makedirs(new File(stamm + "/Modinstaller"));
-				new download().downloadFile(webplace + Version + "/quellen.txt",new FileOutputStream(new File(stamm + "/Modinstaller/modlist.txt")));
-				online = true;
+				String[] vers = Version.split("\\.");
+				boolean vorhanden=false;
+				if(Integer.parseInt(vers[0])>0)
+				{	
+					if(Integer.parseInt(vers[0])==1&&Integer.parseInt(vers[1])>3)
+					{
+						vorhanden=true;
+					}
+					if(Integer.parseInt(vers[0])>1)
+					{
+						vorhanden=true;
+					}
+				}
+				if(vorhanden)
+				{
+					new OP().makedirs(new File(stamm + "/Modinstaller"));
+					new download().downloadFile(webplace + Version + "/quellen.txt",new FileOutputStream(new File(stamm + "/Modinstaller/modlist.txt")));
+					online = true;
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(null, Read.getTextwith("seite1", "inco"), Read.getTextwith("seite1", "incoh"), JOptionPane.INFORMATION_MESSAGE); //ändern					
+					online = false;
+					Zusatz = "Offline";
+				}
 			} 
 			catch (Exception ex) 
 			{				
@@ -442,7 +471,7 @@ public class seite1 extends JFrame
 		else
 		{
 			online = true;	
-		}
+		}		
 	}
 	
 	public void beenden_ActionPerformed(ActionEvent evt) 

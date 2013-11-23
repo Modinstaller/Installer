@@ -391,7 +391,8 @@ public class seite3 extends JFrame
 									
 									ges = new download().downloadFile(quelle + zeilex,new FileOutputStream(new File(Speicherort+ zeilex)));// Datei aus i.txt herunterladen
 									
-									status(value+=groesse);	
+									status(value+=groesse);
+									
 									arbeiten=false;										
 								} 
 								catch (Exception ex) 

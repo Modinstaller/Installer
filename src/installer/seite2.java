@@ -465,37 +465,40 @@ public class seite2 extends JFrame
 		weiter.setEnabled(false);
 		cp.add(weiter);
 		
-		modl.setText("Modloader"); // Auswahl Modloder
-		modl.setSelected(true);
-		modl.setBackground(new Color(0xC0C0C0));
-		modl.addActionListener(new ActionListener() 
+		if(online==true)
 		{
-			public void actionPerformed(ActionEvent evt) 
+			modl.setText("Modloader"); // Auswahl Modloder
+			modl.setSelected(true);
+			modl.setBackground(new Color(0xC0C0C0));
+			modl.addActionListener(new ActionListener() 
 			{
-				modl_ActionPerformed(evt);
-			}
-		});
-		modl.setBounds(230, 275, 100, 20);
-		cp.add(modl);
-
-		 // Auswahl Forge
-		forg.setText("Forge");
-		forg.setBounds(230, 295, 100, 20);
-		forg.setBackground(new Color(0xC0C0C0));
-		forg.addActionListener(new ActionListener() 
-		{
-			public void actionPerformed(ActionEvent evt) 
+				public void actionPerformed(ActionEvent evt) 
+				{
+					modl_ActionPerformed(evt);
+				}
+			});
+			modl.setBounds(230, 275, 100, 20);
+			cp.add(modl);
+	
+			 // Auswahl Forge
+			forg.setText("Forge");
+			forg.setBounds(230, 295, 100, 20);
+			forg.setBackground(new Color(0xC0C0C0));
+			forg.addActionListener(new ActionListener() 
 			{
-				forg_ActionPerformed();
-			}
-		});
-		cp.add(forg);
-		// Zur Gruppe hinzufügen
-		ButtonGroup group = new ButtonGroup();
-		group.add(modl);
-		group.add(forg);	
-		
-		updatelists();
+				public void actionPerformed(ActionEvent evt) 
+				{
+					forg_ActionPerformed();
+				}
+			});
+			cp.add(forg);
+			// Zur Gruppe hinzufügen
+			ButtonGroup group = new ButtonGroup();
+			group.add(modl);
+			group.add(forg);
+			
+			updatelists();
+		}
 		
 		pane = new JTextPane();
 		pane.setEditable(false);
@@ -631,26 +634,34 @@ public class seite2 extends JFrame
 		}
 		try 
 		{
-			in = new BufferedReader(new FileReader(stamm +"/Modinstaller/modlist.txt")); // Alle Mods einlesen
-			String zeile = null;
-			while ((zeile = in.readLine()) != null) 
+			if(new File(stamm +"/Modinstaller/modlist.txt").exists())
 			{
-				String[] spl = zeile.split(";"); // in String[] spl speichern
-				boolean ent1 = false;
-				for (int j = 0; j < jList2Model.getSize(); j++) 
+				in = new BufferedReader(new FileReader(stamm +"/Modinstaller/modlist.txt")); // Alle Mods einlesen
+				String zeile = null;
+				while ((zeile = in.readLine()) != null) 
 				{
-					if (spl[0].equals(jList2Model.getElementAt(j).toString())) // Ausgewählte Stelle suchen
+					String[] spl = zeile.split(";"); // in String[] spl speichern
+					boolean ent1 = false;
+					for (int j = 0; j < jList2Model.getSize(); j++) 
 					{
-						ent1 = true;
+						if (spl[0].equals(jList2Model.getElementAt(j).toString())) // Ausgewählte Stelle suchen
+						{
+							ent1 = true;
+						}
 					}
+					if (ent1 == false) 
+					{
+						jList1Model.addElement(spl[0]);
+					}                       				// zur Liste1 hinzufügen
 				}
-				if (ent1 == false) 
-				{
-					jList1Model.addElement(spl[0]);
-				}                       				// zur Liste1 hinzufügen
+				in.close();
+				jList1.setSelectedIndex(0);
 			}
-			in.close();
-			jList1.setSelectedIndex(0);
+			else
+			{
+				jList1Model.removeAllElements();
+				jList2Model.removeAllElements();
+			}
 		} 
 		catch (Exception ex) 
 		{
@@ -965,19 +976,43 @@ public class seite2 extends JFrame
 		versionstext.setText("Minecraft "+Version);
 		Modloader = true;
 		modl.setSelected(true);
-		if(online==true)
-		{
+					
 			try 
 			{
-				new download().downloadFile(webplace + Version + "/quellen.txt",new FileOutputStream(new File(stamm +"/Modinstaller/modlist.txt")));
-				updatelists();
+				String[] vers = Version.split("\\.");
+				boolean vorhanden=false;
+				if(Integer.parseInt(vers[0])>0)
+				{	
+					if(Integer.parseInt(vers[0])==1&&Integer.parseInt(vers[1])>3)
+					{
+						vorhanden=true;
+					}
+					if(Integer.parseInt(vers[0])>1)
+					{
+						vorhanden=true;
+					}
+				}
+				if(vorhanden)
+				{
+					new OP().makedirs(new File(stamm + "/Modinstaller"));
+					new download().downloadFile(webplace + Version + "/quellen.txt",new FileOutputStream(new File(stamm + "/Modinstaller/modlist.txt")));
+					online = true;
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(null, Read.getTextwith("seite1", "inco"), Read.getTextwith("seite1", "incoh"), JOptionPane.INFORMATION_MESSAGE); //ändern					
+					online = false;	
+					new OP().del(new File(stamm + "/Modinstaller/modlist.txt"));					
+				}
+				
 			} 
 			catch (Exception ex) 
 			{
 				new Error(Read.getTextwith("seite2", "error1")+ String.valueOf(ex)+ "\n\nErrorcode: S2x03", Version);	
 				new browser("http://www.minecraft-installer.de/verbindung.htm");
 			}			
-		}
+		
+		updatelists();
 	}
 	
 	private String getModinfo(String mod, String typ)
