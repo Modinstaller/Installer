@@ -319,6 +319,7 @@ public class seite1 extends JFrame
 				    {				
 						e1.printStackTrace();
 					}   
+				 
 					File filex = new File(stamm+"/Modinstaller/lizenz.txt"); // Überprüfen ob lizenz.txt vorhanden
 					if (filex.exists()) 
 					{
@@ -426,7 +427,7 @@ public class seite1 extends JFrame
 				}
 				else
 				{
-					JOptionPane.showMessageDialog(null, Read.getTextwith("seite1", "inco"), Read.getTextwith("seite1", "incoh"), JOptionPane.INFORMATION_MESSAGE); //ändern					
+					JOptionPane.showMessageDialog(null, Read.getTextwith("seite1", "inco"), Read.getTextwith("seite1", "incoh"), JOptionPane.INFORMATION_MESSAGE); //ändern						
 					online = false;
 					Zusatz = "Offline";
 				}

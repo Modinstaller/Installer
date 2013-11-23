@@ -92,6 +92,7 @@ public class seite2 extends JFrame
 	private JCheckBox check = new JCheckBox();
 	private boolean aktual = true;
 	private JScrollPane scroller;
+	private ButtonGroup group = new ButtonGroup();
 	
 
 
@@ -465,40 +466,38 @@ public class seite2 extends JFrame
 		weiter.setEnabled(false);
 		cp.add(weiter);
 		
-		if(online==true)
+		
+		modl.setText("Modloader"); // Auswahl Modloder
+		modl.setSelected(true);
+		modl.setBackground(new Color(0xC0C0C0));
+		modl.addActionListener(new ActionListener() 
 		{
-			modl.setText("Modloader"); // Auswahl Modloder
-			modl.setSelected(true);
-			modl.setBackground(new Color(0xC0C0C0));
-			modl.addActionListener(new ActionListener() 
+			public void actionPerformed(ActionEvent evt) 
 			{
-				public void actionPerformed(ActionEvent evt) 
-				{
-					modl_ActionPerformed(evt);
-				}
-			});
-			modl.setBounds(230, 275, 100, 20);
-			cp.add(modl);
-	
-			 // Auswahl Forge
-			forg.setText("Forge");
-			forg.setBounds(230, 295, 100, 20);
-			forg.setBackground(new Color(0xC0C0C0));
-			forg.addActionListener(new ActionListener() 
+				modl_ActionPerformed(evt);
+			}
+		});
+		modl.setBounds(230, 275, 100, 20);
+		cp.add(modl);
+
+		 // Auswahl Forge
+		forg.setText("Forge");
+		forg.setBounds(230, 295, 100, 20);
+		forg.setBackground(new Color(0xC0C0C0));
+		forg.addActionListener(new ActionListener() 
+		{
+			public void actionPerformed(ActionEvent evt) 
 			{
-				public void actionPerformed(ActionEvent evt) 
-				{
-					forg_ActionPerformed();
-				}
-			});
-			cp.add(forg);
-			// Zur Gruppe hinzufügen
-			ButtonGroup group = new ButtonGroup();
-			group.add(modl);
-			group.add(forg);
-			
-			updatelists();
-		}
+				forg_ActionPerformed();
+			}
+		});
+		cp.add(forg);
+		// Zur Gruppe hinzufügen		
+		group.add(modl);
+		group.add(forg);
+		
+		updatelists();
+		
 		
 		pane = new JTextPane();
 		pane.setEditable(false);
@@ -534,7 +533,74 @@ public class seite2 extends JFrame
 		{
 			restore.setEnabled(false);
 		}
-		setVisible(true);	
+		if(online==false)offline(true);
+		setVisible(true);					
+	}
+	
+	public void offline(boolean off)
+	{
+		if(off==true)
+		{
+			online=false;
+			jList1Model.removeAllElements();
+			jList2Model.removeAllElements();
+			forg.setEnabled(false);
+			modl.setEnabled(false);
+			modl.setSelected(true);
+			importbutton.setEnabled(true);
+			try
+			{
+				pane.setText(Read.getTextwith("seite2", "offline"));
+				pane.setCaretPosition(0);	
+				modtext.setText(Read.getTextwith("seite2", "text7"));
+			}
+			catch (Exception ex)
+			{
+				
+			}		
+		}
+		else
+		{
+			online=true;
+			forg.setEnabled(true);
+			modl.setEnabled(true);
+			if(jList1Model.isEmpty())
+	    	{
+		    	if(!jList2Model.isEmpty())
+		    	{
+		    		jList2.setSelectedIndex(0);
+		    		try
+					{
+		    			pane.setText(getInfoText((String)jList2Model.get(jList2.getSelectedIndex())));	
+			    		pane.setCaretPosition(0);
+			    		modtext.setText((String)jList2Model.get(jList2.getSelectedIndex()));	
+					}
+					catch (Exception ex)
+					{
+						
+					}		    	
+		    	}
+	    	}
+	    	else
+	    	{
+	    		try
+				{
+	    			pane.setText(getInfoText((String)jList1Model.get(jList1.getSelectedIndex())));	    
+		    		pane.setCaretPosition(0);
+		    		modtext.setText((String)jList1Model.get(jList1.getSelectedIndex()));
+				}
+				catch (Exception ex)
+				{
+					
+				}	    		
+	    	}
+		}
+		
+	}
+	
+	public void forge(boolean forg)
+	{
+		
 	}
 	
 	public void modl_ActionPerformed(ActionEvent evt) // Auswählen von Mods
@@ -634,7 +700,7 @@ public class seite2 extends JFrame
 		}
 		try 
 		{
-			if(new File(stamm +"/Modinstaller/modlist.txt").exists())
+			if(new File(stamm +"/Modinstaller/modlist.txt").exists()&&new File(stamm +"/Modinstaller/modlist.txt").length()!=0)
 			{
 				in = new BufferedReader(new FileReader(stamm +"/Modinstaller/modlist.txt")); // Alle Mods einlesen
 				String zeile = null;
@@ -656,11 +722,11 @@ public class seite2 extends JFrame
 				}
 				in.close();
 				jList1.setSelectedIndex(0);
+				offline(false);
 			}
 			else
 			{
-				jList1Model.removeAllElements();
-				jList2Model.removeAllElements();
+				offline(true);
 			}
 		} 
 		catch (Exception ex) 
@@ -812,6 +878,8 @@ public class seite2 extends JFrame
 			{
 				file = new File(stamm +"/Modinstaller/log2.log");
 			}
+			if(online==true)
+			{
 			FileWriter fw1 = null;
 			fw1 = new FileWriter(file.getPath());
 			PrintWriter pw = new PrintWriter(fw1);
@@ -837,6 +905,7 @@ public class seite2 extends JFrame
 			fw1.close();
 			pw.flush();
 			pw.close();
+			}
 			dispose();
 			new seite3(namen, zeilen, anzahl, Modloader, webplace, mineord, online, Version, stamm);
 		} 
@@ -1012,7 +1081,7 @@ public class seite2 extends JFrame
 				new browser("http://www.minecraft-installer.de/verbindung.htm");
 			}			
 		
-		updatelists();
+		updatelists();	
 	}
 	
 	private String getModinfo(String mod, String typ)
