@@ -533,7 +533,9 @@ public class seite2 extends JFrame
 		{
 			restore.setEnabled(false);
 		}
+		forgetest();
 		if(online==false)offline(true);
+		
 		setVisible(true);					
 	}
 	
@@ -598,9 +600,28 @@ public class seite2 extends JFrame
 		
 	}
 	
-	public void forge(boolean forg)
+	public void forgetest()
 	{
-		
+		int sizex =0;
+		try 
+		{
+			sizex= new download().size(webplace + Version + "/Forge_Mods/quellen.txt");
+		} 
+		catch (Exception e) 
+		{
+			modl.setEnabled(false);
+			forg.setEnabled(false);
+		}
+		if(sizex==0)
+		{
+			modl.setEnabled(false);
+			forg.setEnabled(false);
+		}
+		else
+		{
+			modl.setEnabled(true);
+			forg.setEnabled(true);
+		}
 	}
 	
 	public void modl_ActionPerformed(ActionEvent evt) // Auswählen von Mods
@@ -611,10 +632,7 @@ public class seite2 extends JFrame
 			try 
 			{
 				new download().downloadFile(webplace + Version + "/quellen.txt",new FileOutputStream(new File(stamm +"/Modinstaller/modlist.txt")));
-				updatelists();							
-				pfeillinks.setEnabled(true);
-				pfeilrechts.setEnabled(true);				
-				importbutton.setEnabled(true);
+				updatelists();					
 			} 
 			catch (Exception ex) 
 			{
@@ -632,19 +650,7 @@ public class seite2 extends JFrame
 			try 
 			{
 				new download().downloadFile(webplace + Version + "/Forge_Mods/quellen.txt",new FileOutputStream(new File(stamm +"/Modinstaller/modlist.txt")));
-				updatelists();
-				if(new File(stamm +"/Modinstaller/modlist.txt").length()==0)
-				{					
-					pfeillinks.setEnabled(false);
-					pfeilrechts.setEnabled(false);
-					importbutton.setEnabled(false);
-				}
-				else
-				{					
-					pfeillinks.setEnabled(true);
-					pfeilrechts.setEnabled(true);
-					importbutton.setEnabled(true);
-				}	
+				updatelists();				
 			} 
 			catch (Exception ex) 
 			{
@@ -723,6 +729,7 @@ public class seite2 extends JFrame
 				in.close();
 				jList1.setSelectedIndex(0);
 				offline(false);
+				forgetest();
 			}
 			else
 			{
@@ -1080,8 +1087,9 @@ public class seite2 extends JFrame
 				new Error(Read.getTextwith("seite2", "error1")+ String.valueOf(ex)+ "\n\nErrorcode: S2x03", Version);	
 				new browser("http://www.minecraft-installer.de/verbindung.htm");
 			}			
-		
+		forgetest();
 		updatelists();	
+		
 	}
 	
 	private String getModinfo(String mod, String typ)

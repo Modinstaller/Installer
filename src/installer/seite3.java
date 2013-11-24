@@ -469,42 +469,47 @@ public class seite3 extends JFrame
 					Fehler += String.valueOf(ex) + " Errorcode: S3x04\n";
 				}
 			    }
-								          
-				if ( new File(stamm + "/Modinstaller/zusatz.txt").exists())  // Zusatzdateien kopieren
+				
+				File zusatz = new File(stamm + "/Modinstaller/zusatz.txt");
+				if (zusatz.exists())  // Zusatzdateien kopieren
 				{
 					try 
 					{
-						BufferedReader buffread2 = new BufferedReader(new FileReader(stamm + "/Modinstaller/zusatz.txt"));
-						String zeile2 = null;
+						BufferedReader buffread2 = new BufferedReader(new FileReader(zusatz.toString().replace("\\", "/")));
+						String zeile2 = "";
 						while ((zeile2 = buffread2.readLine()) != null) 
-						{
+						{							
 							stat.setText(Read.getTextwith("seite3", "prog11a") + zeile2 + Read.getTextwith("seite3", "prog11b"));
-							BufferedReader buffread3 = new BufferedReader(new FileReader(stamm + "/Modinstaller/Import/"+zeile2+".txt"));
-							String zeile3 = null;
-							while ((zeile3 = buffread3.readLine()) != null) 
-							{	
-								String[] spl = zeile3.split(";;");
-								if(spl.length==1)
+							File neu = new File(stamm + "/Modinstaller/Import/"+zeile2+".txt");
+							if(neu.exists())
+							{
+								BufferedReader buffread3 = new BufferedReader(new FileReader(neu.toString().replace("\\", "/")));
+								String zeile3 = "";
+								while ((zeile3 = buffread3.readLine()) != null) 
 								{	
-									if(new File(spl[0]).isDirectory())
-									{
-										new OP().copy(new File(spl[0]), new File(stamm + "/Modinstaller/Result/"));
+									String[] spl = zeile3.split(";;");
+									if(spl.length==1)
+									{	
+										if(new File(spl[0]).isDirectory())
+										{
+											new OP().copy(new File(spl[0]), new File(stamm + "/Modinstaller/Result/"));
+										}
+										else
+										{
+											String name = new File(spl[0]).getName().toString().replace("\\", "/");
+											new OP().copy(new File(spl[0]), new File(stamm + "/Modinstaller/Result/"+name));
+										}									
 									}
 									else
-									{
-										String name = new File(spl[0]).getName().toString().replace("\\", "/");
-										new OP().copy(new File(spl[0]), new File(stamm + "/Modinstaller/Result/"+name));
-									}									
+									{									
+										String von = spl[0];
+										String nach = spl[1]+new File(spl[0]).getName().toString().replace("\\", "/");
+										
+										new OP().copy(new File(von), new File(nach));
+									}
 								}
-								else
-								{									
-									String von = spl[0];
-									String nach = spl[1]+new File(spl[0]).getName().toString().replace("\\", "/");
-									
-									new OP().copy(new File(von), new File(nach));
-								}
+								buffread3.close();
 							}
-							buffread3.close();
 						}
 						buffread2.close();
 					} 
