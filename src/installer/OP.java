@@ -1,11 +1,18 @@
 package installer;
 
 import java.awt.Desktop;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.nio.channels.ByteChannel;
 import java.nio.channels.FileChannel;
 import java.util.regex.Matcher;
@@ -140,7 +147,7 @@ public class OP
 		if(!f.exists())	f.mkdirs();
 	}
 	
-	public String version(String mineord, String Version, String webplace, boolean online, String stamm)
+	public String version(String mineord, String Version, String webplace, boolean online, String stamm) throws IOException
 	{
 		File file = new File(mineord + "/versions");
 		if (file.exists()) 
@@ -173,14 +180,11 @@ public class OP
 			}
 			if(laeng<=0)
 			{
-				JOptionPane.showMessageDialog(null, Read.getTextwith("OP", "error2"), Read.getTextwith("OP", "error2h"), JOptionPane.ERROR_MESSAGE);
-				try {
-					Desktop.getDesktop().open(new File(mineord + "/versions"));
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				System.exit(0);
+				JOptionPane.showMessageDialog(null, Read.getTextwith("OP", "error2"), Read.getTextwith("OP", "error2h"), JOptionPane.ERROR_MESSAGE);	
+				File vers = new File(mineord + "/versions");
+				if(vers.exists())
+				Desktop.getDesktop().open(vers);
+			
 			}
 			String[] ne = new String[laeng];
 			int z =0;
@@ -230,16 +234,48 @@ public class OP
 		else 
 		{
 			JOptionPane.showMessageDialog(null, Read.getTextwith("OP", "error")+":\n\n"+ mineord + "/versions", Read.getTextwith("OP", "errorh"), JOptionPane.ERROR_MESSAGE);
-			try 
-			{
-				Desktop.getDesktop().open(new File(mineord));
-			} 
-			catch (IOException e) 
-			{
-				e.printStackTrace();
-			}
-			System.exit(0);
+			File vers = new File(mineord);
+			if(vers.exists())
+			Desktop.getDesktop().open(vers);		
 		}		
 		return Version;
-	}	
+	}
+	
+	public void Textwriter(File datei, String[] lines, boolean nueber) throws IOException
+	{
+		BufferedWriter f;	
+		boolean umbruch = false;
+		if(datei.length()!=0&&nueber==true) umbruch = true;
+	    
+        f = new BufferedWriter(new FileWriter(datei.toString(), nueber));
+        for (int i = 0; i < lines.length; ++i) 
+        {	
+        	if(umbruch) f.newLine();
+	        f.write(lines[i]);
+	        if(i<lines.length-1) f.newLine();
+        }
+        f.close();	     	   
+	}
+	
+	public String[] Textreader(File datei) throws IOException
+	{
+		BufferedReader f;	  	  
+	    String line, alles="";
+        f = new BufferedReader(new FileReader(datei.toString()));
+        while ((line = f.readLine()) != null) 
+        {
+        	alles+=line+";;;;";
+        }        	      
+        f.close();
+        alles.substring(0, alles.length()-4);
+        return alles.split(";;;;");
+	}
+	
+	  public String getStackTrace(Throwable aThrowable) 
+	  {
+		final Writer result = new StringWriter();
+		final PrintWriter printWriter = new PrintWriter(result);
+		aThrowable.printStackTrace(printWriter);
+		return result.toString();
+	  }	
 }

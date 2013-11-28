@@ -265,7 +265,7 @@ public class seite3 extends JFrame
 				catch (Exception ex) 
 				{
 					stat.setText("Errorcode: S3x01: " + String.valueOf(ex));
-					Fehler += String.valueOf(ex) + " Errorcode: S3x01\n";
+					Fehler += new OP().getStackTrace(ex) + " Errorcode: S3x01\n";
 				}
 				status(value += 1);
 				
@@ -398,7 +398,7 @@ public class seite3 extends JFrame
 								catch (Exception ex) 
 								{
 									stat.setText("Errorcode: S3x03: "	+ String.valueOf(ex));
-									Fehler += String.valueOf(ex) + " at \""+ quelle + zeilex+ "\" Errorcode: S3x03\n";								
+									Fehler += new OP().getStackTrace(ex) + " at \""+ quelle + zeilex+ "\" Errorcode: S3x03\n";								
 								}
 							}
 							buffread.close();
@@ -466,7 +466,7 @@ public class seite3 extends JFrame
 				catch (Exception ex) 
 				{
 					stat.setText("Errorocde: S3x04: " + String.valueOf(ex));
-					Fehler += String.valueOf(ex) + " Errorcode: S3x04\n";
+					Fehler += new OP().getStackTrace(ex) + " Errorcode: S3x04\n";
 				}
 			    }
 				
@@ -516,7 +516,7 @@ public class seite3 extends JFrame
 					catch (Exception ex) 
 					{
 						stat.setText("Errorcode: S3x05" + String.valueOf(ex));
-						Fehler += String.valueOf(ex) + " Errorcode: S3x05\n";
+						Fehler += new OP().getStackTrace(ex) + " Errorcode: S3x05\n";
 					}
 				}
 				
@@ -538,7 +538,7 @@ public class seite3 extends JFrame
 					catch (Exception ex) 
 					{
 						stat.setText("Errorcode: S3x06" + String.valueOf(ex));
-						Fehler += String.valueOf(ex) + " Errorcode: S3x06\n";
+						Fehler += new OP().getStackTrace(ex) + " Errorcode: S3x06\n";
 					}
 				}
 				

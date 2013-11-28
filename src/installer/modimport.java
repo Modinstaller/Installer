@@ -16,6 +16,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 
@@ -72,9 +73,9 @@ public class modimport extends JFrame
 			{
 				try
 				{
-					BufferedWriter out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(stamm+"/Modinstaller/zusatz.txt", true)));
-					out.write(eingabe+ System.getProperty("line.separator"));
-					out.close();
+					BufferedWriter out1 = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(stamm+"/Modinstaller/zusatz.txt", true)));
+					out1.write(eingabe+ System.getProperty("line.separator"));
+					out1.close();
 				}
 				catch (Exception ex)
 				{
@@ -172,15 +173,15 @@ public class modimport extends JFrame
 		{
 			try
 			{
-				BufferedReader in = new BufferedReader(new FileReader(stamm+"/Modinstaller/Import/"+eingabe+".txt")); // zusatz.txt durchkämmen
-				String zeile = null;
-				while ((zeile = in.readLine()) != null) 
+				BufferedReader in2 = new BufferedReader(new FileReader(stamm+"/Modinstaller/Import/"+eingabe+".txt")); // zusatz.txt durchkämmen
+				String zeile4 = null;
+				while ((zeile4 = in2.readLine()) != null) 
 				{
-					String[] spl = zeile.split(";;");
+					String[] spl = zeile4.split(";;");
 					File zz	= new File(spl[0]);						
 					jList1Model.addElement(zz.getName());
 				}
-				in.close();
+				in2.close();
 			}
 			catch (Exception ex)
 			{	
@@ -207,17 +208,17 @@ public class modimport extends JFrame
 				{
 					try 
 					{
-						BufferedReader in = new BufferedReader(new FileReader(stamm+"/Modinstaller/Import/"+eingabe+".txt")); // zusatz.txt durchkämmen
-						String zeile = null;
-						while ((zeile = in.readLine()) != null) 
+						BufferedReader in3 = new BufferedReader(new FileReader(stamm+"/Modinstaller/Import/"+eingabe+".txt")); // zusatz.txt durchkämmen
+						String zeile5 = null;
+						while ((zeile5 = in3.readLine()) != null) 
 						{
-							String[] spl = zeile.split(";;");
-							zeile = spl[0];
-							if (new File(zeile).getName().equals(((String) jList1Model.getElementAt(jList1.getSelectedIndex())))) 
+							String[] spl = zeile5.split(";;");
+							zeile5 = spl[0];
+							if (new File(zeile5).getName().equals(((String) jList1Model.getElementAt(jList1.getSelectedIndex())))) 
 							{
 								try 
 								{
-									Desktop.getDesktop().open(new File(zeile));
+									Desktop.getDesktop().open(new File(zeile5));
 								} 
 								catch (IOException ex) 
 								{
@@ -225,7 +226,7 @@ public class modimport extends JFrame
 								} 	
 							} // end of if						
 						}
-						in.close();		
+						in3.close();		
 					} 
 					catch (Exception ex) 
 					{
@@ -270,26 +271,27 @@ public class modimport extends JFrame
 		if (FC.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) // Ordner öffnen
 		{
 			File[] files = FC.getSelectedFiles();
+			String lines[] = new String[files.length];
 			for (int j =0; j<files.length; j++)
 			{
 				jList1Model.addElement(files[j].getName());
-				try 
+				if(Modloader==true)
 				{
-					BufferedWriter out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(stamm+"/Modinstaller/Import/"+eingabe+".txt", true))); // Ausgewählte Dateien in zusatz.txt abspeichern
-					if(Modloader==true)
-					{
-						out.write(String.valueOf(files[j]).replace("\\", "/")+ System.getProperty("line.separator"));
-					}
-					else
-					{
-						out.write(String.valueOf(files[j]).replace("\\", "/")+";;"+mineord+"/"+Ordner+ System.getProperty("line.separator"));
-					}
-					out.close();
-				} 
-				catch (Exception e) 
-				{
-					JOptionPane.showMessageDialog(null, Read.getTextwith("modimport", "error1")	+ String.valueOf(e)	+ "\n\nErrorcode: MOx04", Read.getTextwith("modimport", "error1h"), JOptionPane.ERROR_MESSAGE);
+					lines[j] =String.valueOf(files[j]).replace("\\", "/");
 				}
+				else
+				{
+					lines[j] =String.valueOf(files[j]).replace("\\", "/")+";;"+mineord+"/"+Ordner;
+				}
+				lines[j] = String.valueOf(files[j]).replace("\\", "/");				
+			}
+			try 
+			{
+				new OP().Textwriter(new File(stamm+"/Modinstaller/Import/"+eingabe+".txt"), lines, true);
+			} 
+			catch (IOException e) 
+			{
+				JOptionPane.showMessageDialog(null, Read.getTextwith("modimport", "error1")	+ String.valueOf(e)	+ "\n\nErrorcode: MOx04", Read.getTextwith("modimport", "error1h"), JOptionPane.ERROR_MESSAGE);
 			}
 		}
 	}
@@ -301,7 +303,7 @@ public class modimport extends JFrame
 			try 
 			{
 				BufferedReader in = new BufferedReader(new FileReader(stamm+"/Modinstaller/Import/"+eingabe+".txt")); // zusatz.txt durchkämmen
-				BufferedWriter out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(stamm+"/Modinstaller/Import/"+eingabe+"2.txt")));
+				BufferedWriter out = new BufferedWriter(new FileWriter(stamm+"/Modinstaller/Import/"+eingabe+"2.txt"));
 				String zeile = null;
 				boolean test = false;
 				while ((zeile = in.readLine()) != null) 
@@ -312,15 +314,15 @@ public class modimport extends JFrame
 						out.write(String.valueOf(zeile)	+ System.getProperty("line.separator"));
 						test = true;
 					} // end of if
-			}
-			in.close();
-			out.close();
-			new OP().del(new File(stamm+"/Modinstaller/Import/"+eingabe+".txt"));
-	        new OP().rename(new File(stamm+"/Modinstaller/Import/"+eingabe+"2.txt"), new File(stamm+"/Modinstaller/Import/"+eingabe+".txt"));
-			if (test == false) 
-			{
+				}
+				in.close();
+				out.close();
 				new OP().del(new File(stamm+"/Modinstaller/Import/"+eingabe+".txt"));
-			} 
+		        new OP().rename(new File(stamm+"/Modinstaller/Import/"+eingabe+"2.txt"), new File(stamm+"/Modinstaller/Import/"+eingabe+".txt"));
+				if (test == false) 
+				{
+					new OP().del(new File(stamm+"/Modinstaller/Import/"+eingabe+".txt"));
+				} 
 			} 
 			catch (Exception ex) 
 			{
@@ -359,7 +361,7 @@ public class modimport extends JFrame
 			try 
 			{
 				BufferedReader in = new BufferedReader(new FileReader(stamm+"/Modinstaller/zusatz.txt"));
-				BufferedWriter out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(stamm+"/Modinstaller/zusatz2.txt")));
+				BufferedWriter out = new BufferedWriter(new FileWriter(stamm+"/Modinstaller/zusatz2.txt"));
 				String zeile = null;
 				boolean test = false;
 				while ((zeile = in.readLine()) != null) 

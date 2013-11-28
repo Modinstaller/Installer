@@ -23,7 +23,6 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.lang.reflect.Method;
 
@@ -799,7 +798,7 @@ public class seite2 extends JFrame
 					try 
 					{
 						BufferedReader in = new BufferedReader(new FileReader(stamm +"/Modinstaller/zusatz.txt"));
-						BufferedWriter out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(stamm +"/Modinstaller/zusatz2.txt")));
+						BufferedWriter out = new BufferedWriter(new FileWriter(stamm +"/Modinstaller/zusatz2.txt"));
 						String zeile = null;
 						boolean test = false;
 						while ((zeile = in.readLine()) != null) 
@@ -918,7 +917,7 @@ public class seite2 extends JFrame
 		} 
 		catch (Exception ex) 
 		{	
-			new Error(Read.getTextwith("seite2", "error3")+ ex.toString() + " "+Thread.currentThread().getStackTrace()+ "\n\nErrorcode: S2x09", Version);	
+			new Error(new OP().getStackTrace(ex) + "\n\nErrorcode: S2x09", Version);	
 		}		
 	}
 
@@ -969,12 +968,12 @@ public class seite2 extends JFrame
 		    }
 		    catch(Exception ex)
 		    { 
-		    	return String.valueOf(ex)+ "<br><br>Errorcode: INx01"; 
+		    	return new OP().getStackTrace(ex)+ "<br><br>Errorcode: INx01"; 
 		    }		       		        
 		}         
 		catch (Exception ex)
 		{
-		    return String.valueOf(ex)+"<br><br>Errorcode: INx04";
+		    return new OP().getStackTrace(ex)+"<br><br>Errorcode: INx04";
 		}		  
 	}
 	
@@ -1048,7 +1047,12 @@ public class seite2 extends JFrame
 	
 	public void versionerfragen()
 	{
-		Version = new OP().version(mineord, Version, webplace, online, stamm);
+		try {
+			Version = new OP().version(mineord, Version, webplace, online, stamm);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		versionstext.setText("Minecraft "+Version);
 		Modloader = true;
 		modl.setSelected(true);

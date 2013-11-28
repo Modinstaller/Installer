@@ -80,7 +80,7 @@ public class Komprimieren
 		} 
 		catch (Exception ex) 
 		{
-			Fehler += String.valueOf(ex) + " Errorcode: KOx03\n";
+			Fehler += new OP().getStackTrace(ex) + " Errorcode: KOx03\n";
 		} 
 		finally 
 		{
@@ -90,7 +90,7 @@ public class Komprimieren
 			} 
 			catch (Exception ex) 
 			{
-				Fehler += String.valueOf(ex) + " Errorcode: KOx04\n";
+				Fehler += new OP().getStackTrace(ex) + " Errorcode: KOx04\n";
 			}
 		}
 		return Fehler;

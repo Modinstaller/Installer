@@ -40,8 +40,8 @@ public class Error extends JFrame
 	  { 
 		this.Version = Version;
 	    setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-	    int frameWidth = 517; 
-	    int frameHeight = 373;
+	    int frameWidth = 615; 
+	    int frameHeight = 380;
 	    setTitle(Read.getTextwith("installer", "name"));
 	    setIconImage(new ImageIcon(this.getClass().getResource("src/icon.png")).getImage());
 	    setSize(frameWidth, frameHeight);
@@ -55,19 +55,22 @@ public class Error extends JFrame
 		add(cp);
 	
 	    // Anfang Komponenten	    
-	    head.setBounds(0, 0, 507, 55);
+	    head.setBounds(0, 0, 615, 55);
 	    head.setText(Read.getTextwith("Error", "head"));
 	    head.setHorizontalAlignment(SwingConstants.CENTER);
 	    head.setFont(new Font("Calibri", Font.BOLD, 28));
 	    cp.add(head);
-	    feldScrollPane.setBounds(16, 56, 480, 228);
+	    
+	    feldScrollPane.setBounds(15, 55, 585, 228);
 	    feldScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 	    feld.setEditable(false);
 	    feld.setLineWrap(true);
 	    feld.setWrapStyleWord(true);
 	    feld.setText(fehler);
+	    feld.setCaretPosition(0);
 	    cp.add(feldScrollPane);
-	    Exit.setBounds(405, 304, 90, 30);
+	    
+	    Exit.setBounds(480, 305, 120, 35);
 	    Exit.setCursor(c);
 	    Exit.setText(Read.getTextwith("Error", "exit"));
 	    Exit.setMargin(new Insets(2, 2, 2, 2));
@@ -77,7 +80,7 @@ public class Error extends JFrame
 	      }
 	    });
 	    cp.add(Exit);
-	    Send.setBounds(240, 304, 120, 30);
+	    Send.setBounds(285, 300, 120, 35);
 	    Send.setText(Read.getTextwith("Error", "call"));
 	    Send.setCursor(c);
 	    Send.setMargin(new Insets(2, 2, 2, 2));
@@ -87,7 +90,7 @@ public class Error extends JFrame
 	      }
 	    });
 	    cp.add(Send);
-	    Forum.setBounds(16, 304, 110, 30);
+	    Forum.setBounds(15, 300, 120, 35);
 	    Forum.setText(Read.getTextwith("Error", "forum"));
 	    Forum.setCursor(c);
 	    Forum.setMargin(new Insets(2, 2, 2, 2));
@@ -97,7 +100,7 @@ public class Error extends JFrame
 	      }
 	    });
 	    cp.add(Forum);
-	    Copy.setBounds(128, 304, 110, 30);
+	    Copy.setBounds(150, 300, 120, 35);
 	    Copy.setText(Read.getTextwith("Error", "copy"));
 	    Copy.setCursor(c);
 	    Copy.setMargin(new Insets(2, 2, 2, 2));

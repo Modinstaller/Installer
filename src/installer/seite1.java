@@ -13,6 +13,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.net.URLEncoder;
 
@@ -201,7 +202,14 @@ public class seite1 extends JFrame
 				
 				 // Installation von Mincraft überprüfen
 				
-				Version = new OP().version(mineord, Version, webplace, online, stamm);		
+				try 
+				{
+					Version = new OP().version(mineord, Version, webplace, online, stamm);
+				} 
+				catch (IOException e) 
+				{	
+					new Error( new OP().getStackTrace(e), Version);
+				}		
 				
 				new OP().makedirs(new File(stamm + "/Modinstaller"));
 				  
