@@ -1,6 +1,6 @@
 <html>
 <body>
-MINECRAFT-MODDER-SOFTWARE-LIZENZBESTIMMUNGEN<br>
+MINECRAFT-MODINSTALLER-SOFTWARE-LIZENZBESTIMMUNGEN<br>
 <br>
 Diese Lizenzbestimmungen sind ein Vertrag zwischen Ihnen und "Minecraft-Installer.de".<br>
 Bitte lesen Sie die Lizenzbestimmungen aufmerksam durch. Sie gelten für die oben genannte Software und gegebenenfalls für die Medien, auf denen Sie diese erhalten haben.<br>
